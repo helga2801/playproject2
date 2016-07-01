@@ -1,0 +1,90 @@
+@(fruits: com.avaje.ebean.PagedList[Fruit])
+@main {
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href=" ">Application</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+            </div>
+        </div>
+    </nav>
+    <div class="jumbotron">
+        <div class="container">
+            <div id="actions">
+
+            </div>
+            @if(flash.containsKey("success")) {
+                <div class="alert-message warning">
+                @flash.get("success")
+                </div>
+            }
+        </div>
+    </div>
+    <div class="container">
+        <h2>StorehouseFruits</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>name</th>
+                    <th>sum</th>
+                    <th>description</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+                @for(fruit <- fruits.getList) {
+                    <tr>
+                        <td><a href="@routes.Application.edit(fruit.id)">@fruit.name</a></td>
+                        <td><a href="@routes.Application.edit(fruit.id)">@fruit.sum</a>
+                        </td>
+                        <td><a href="@routes.Application.edit(fruit.id)">@fruit.description</a>
+                        </td>
+                        <td><a class=" btn btn-primary" href="@routes.Application.edit(fruit.id)">edit</a></td>
+                        <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-@fruit.id">delete</button>
+                            <div class="modal fade" id="modal-@fruit.id" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            <h4 class="modal-title">Remove</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Are sure you want to delete?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                                            <button type="button" class="btn btn-primary" onclick="javascript:del({urlToDelete:'@routes.Application.delete(fruit.id)'})">Yes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <script>
+         function del(parameters) {
+             var urlToDelete = parameters.urlToDelete;
+             $.ajax({
+                 url: urlToDelete,
+                 type: 'DELETE',
+                 success: function(results) {
+                     location.reload();
+                 }
+             });
+         }
+        </script>
+
+                }
+
+            </tbody>
+        </table>
+        <a class="btn btn-primary" href="@routes.Application.add()">Add</a>
+
+        
+    </div>
+}
+        
+
+
+            

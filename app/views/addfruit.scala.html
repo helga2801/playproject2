@@ -1,0 +1,42 @@
+@(fruitForm: Form[Fruit])
+
+@import helper._
+
+@import b3.vertical.fieldConstructor
+
+@main {
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href=" ">Add Form</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+            </div>
+        </div>
+    </nav>
+    <div class="jumbotron">
+        <div class="container">
+            <h2>Add fruit</h2>
+
+        </div>
+    </div>
+    <div class="container">
+
+    @b3.form(action = routes.Application.save(), 'method -> "post") {
+        
+        <fieldset>
+            @b3.text(fruitForm("name"), '_label -> "Name")
+            @b3.text(fruitForm("sum"), '_label -> "Sum")
+            @b3.text(fruitForm("description"), '_label -> "Description")
+        </fieldset>
+        
+        <div class="actions">
+            <input type="submit" class="btn btn-primary" value="save">
+            <a class="btn btn-primary"href="@routes.Application.list()">cancel</a>
+        </div>
+        
+    }
+    </div>
+    <hr>
+    <footer> </footer>
+}
